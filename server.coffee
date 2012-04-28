@@ -131,10 +131,10 @@ app.post "/text", secretAction, tropoAction, (req, res) ->
         redis.get message.contact, (err, value) ->
             get_contact_info message.contact, (name, type) ->
                 mail_headers =
-                    from: "#{name} <#{message.contact}@#{process.env.ABBOTT_MAILGUN_DOMAIN}>"
-                    to: "#{process.env.ABBOTT_NAME} <#{process.env.ABBOTT_EMAIL}>"
+                    from:    "#{name} <#{message.contact}@#{process.env.ABBOTT_MAILGUN_DOMAIN}>"
+                    to:      "#{process.env.ABBOTT_NAME} <#{process.env.ABBOTT_EMAIL}>"
                     subject: "SMS from #{name}"
-                    text: message.text
+                    text:    message.text
                     
                 if value
                     mail_headers["h:In-Reply-To"] = value
@@ -157,9 +157,9 @@ app.post "/text", secretAction, tropoAction, (req, res) ->
         message.save()
         
         req.t.add "message"
-            to: to
+            to:      to
             channel: "TEXT"
-            from: process.env.ABBOTT_PRIMARY_NUMBER
+            from:    process.env.ABBOTT_PRIMARY_NUMBER
             say: 
                 value: text
                 
@@ -178,13 +178,13 @@ app.post "/voice", secretAction, tropoAction, (req, res) ->
         call.save()        
         
         req.t.add "call"
-            to: process.env.ABBOTT_PHONES.split(",")
+            to:   process.env.ABBOTT_PHONES.split(",")
             from: process.env.ABBOTT_PRIMARY_NUMBER
         req.t.add "say"
             value: "Transfering your call"
             voice: "kate"
         req.t.add "transfer"
-            to: contact
+            to:   contact
             from: process.env.ABBOTT_PRIMARY_NUMBER
             on:
                 event: "ring"
@@ -241,10 +241,10 @@ app.post "/voicemail", secretAction, tropoAction, (req, res) ->
         say:
             value: "Please leave a message after the tone"
         transcription:
-            id: session
+            id:  session
             url: "https://#{req.header("Host")}/transcription?secret=#{process.env.ABBOTT_SECRET}"
-        beep: true
-        url: "https://#{req.header("Host")}/recording?session=#{session}&secret=#{process.env.ABBOTT_SECRET}"
+        beep:  true
+        url:   "https://#{req.header("Host")}/recording?session=#{session}&secret=#{process.env.ABBOTT_SECRET}"
         voice: "kate"
     req.t.add "hangup"
     
@@ -279,10 +279,10 @@ app.post "/transcription", secretAction, (req, res) ->
                     """
             
                 mail_headers = 
-                    from: "#{name} <#{call.contact}@#{process.env.ABBOTT_MAILGUN_DOMAIN}>"
-                    to: "#{process.env.ABBOTT_NAME} <#{process.env.ABBOTT_EMAIL}>"
+                    from:    "#{name} <#{call.contact}@#{process.env.ABBOTT_MAILGUN_DOMAIN}>"
+                    to:      "#{process.env.ABBOTT_NAME} <#{process.env.ABBOTT_EMAIL}>"
                     subject: "Voicemail from #{name}"
-                    text: text
+                    text:    text
                 
                 request
                     .post("https://api:#{process.env.ABBOTT_MAILGUN_API_KEY}@api.mailgun.net/v2/abbott.mailgun.org/messages")
@@ -328,9 +328,9 @@ app.post "/incoming", mailgunAction, (req, res) ->
             redis.set contact, req.body["Message-Id"]
             
         body =
-            token: process.env.ABBOTT_TROPO_MESSAGING_TOKEN
-            to: contact
-            msg: message
+            token:  process.env.ABBOTT_TROPO_MESSAGING_TOKEN
+            to:     contact
+            msg:    message
             source: "email"
             
         request
@@ -345,12 +345,12 @@ app.get "/authorize", (req, res) ->
     Token.count {}, (err, count) ->
         if count == 0
             oauth_params = 
-                response_type: "code"
-                client_id: process.env.ABBOTT_GOOGLE_CLIENT_ID
-                redirect_uri: "https://#{req.header("Host")}/oauth2callback"
-                access_type: "offline"
+                response_type:   "code"
+                client_id:       process.env.ABBOTT_GOOGLE_CLIENT_ID
+                redirect_uri:    "https://#{req.header("Host")}/oauth2callback"
+                access_type:     "offline"
                 approval_prompt: "force"
-                scope: "https://www.google.com/m8/feeds"
+                scope:           "https://www.google.com/m8/feeds"
 
             query = qs.stringify oauth_params
             res.redirect "https://accounts.google.com/o/oauth2/auth?#{query}"
@@ -361,11 +361,11 @@ app.get "/oauth2callback", (req, res) ->
     Token.count {}, (err, count) ->
         if count == 0
             data = 
-                code: req.query.code
-                client_id: process.env.ABBOTT_GOOGLE_CLIENT_ID
+                code:          req.query.code
+                client_id:     process.env.ABBOTT_GOOGLE_CLIENT_ID
                 client_secret: process.env.ABBOTT_GOOGLE_CLIENT_SECRET
-                redirect_uri: "https://#{req.header("Host")}/oauth2callback"
-                grant_type: "authorization_code"
+                redirect_uri:  "https://#{req.header("Host")}/oauth2callback"
+                grant_type:    "authorization_code"
 
             request
                 .post("https://accounts.google.com/o/oauth2/token")
