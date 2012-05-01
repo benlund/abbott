@@ -1,6 +1,8 @@
+request = require("superagent")
+
 Call = require("../models/call")
 Message = require("../models/message")
-request = require("superagent")
+
 main_helpers = require("../helpers/main")
 application_helpers = require("../helpers/application")
 

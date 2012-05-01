@@ -1,6 +1,8 @@
 fs = require("fs")
 request = require("superagent")
+
 Call = require("../models/call")
+
 application_helpers = require("../helpers/application")
 
 secretAction = application_helpers.secretAction
