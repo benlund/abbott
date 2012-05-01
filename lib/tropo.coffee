@@ -4,10 +4,8 @@ class Tropo
             tropo: []
     
     add: (action, parameters) ->
-        unless parameters
-            parameters = null
         obj = {}
-        obj[action] = parameters
+        obj[action] = parameters || null
         @root.tropo.push obj
         
 module.exports = Tropo
