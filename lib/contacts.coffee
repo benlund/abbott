@@ -1,8 +1,9 @@
+url = require("url")
 xml2js = require("xml2js")
 request = require("superagent")
 
 module.exports = (redis) ->
-    get_contacts: (access_token, callback) ->
+    get_contacts = (access_token, callback) ->
         redis.get "contacts:etag", (err, value) ->
             req = request
                 .get("https://www.google.com/m8/feeds/contacts/default/full?max-results=10000")
@@ -20,7 +21,7 @@ module.exports = (redis) ->
                     redis.mset "contacts", res.text, "contacts:etag", res.header["etag"]
                     callback(res.text)        
     
-    get_access_token: (callback) ->
+    get_access_token = (callback) ->
         redis.get "access_token", (err, value) ->
             if value
                 callback(value)
