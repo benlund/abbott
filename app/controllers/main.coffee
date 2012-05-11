@@ -37,7 +37,8 @@ module.exports = (app, redis) ->
                         mail_headers["h:In-Reply-To"] = value
     
                     request
-                        .post("https://api:#{process.env.ABBOTT_MAILGUN_API_KEY}@api.mailgun.net/v2/abbott.mailgun.org/messages")
+                        .post("https://api.mailgun.net/v2/#{process.env.ABBOTT_MAILGUN_DOMAIN}/messages")
+                        .auth("api", process.env.ABBOTT_MAILGUN_API_KEY)
                         .type("form")
                         .send(mail_headers)
                         .end()
