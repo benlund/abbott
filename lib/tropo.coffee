@@ -8,4 +8,7 @@ class Tropo
         obj[action] = parameters || null
         @root.tropo.push obj
         
+    toJSON: ->
+        JSON.stringify(@root)
+        
 module.exports = Tropo

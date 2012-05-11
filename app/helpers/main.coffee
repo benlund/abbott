@@ -9,4 +9,4 @@ module.exports =
         next()
 
         res.contentType "application/json"
-        res.send JSON.stringify(req.t.root)
+        res.send req.t.toJSON
