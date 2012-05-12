@@ -1,6 +1,6 @@
 qs = require("querystring")
 
-module.exports = (app, redis) ->
+module.exports = (app, config, redis) ->
     app.get "/authorize", (req, res) ->
         unless process.env.ABBOTT_GOOGLE_REFRESH_TOKEN
             oauth_params = 

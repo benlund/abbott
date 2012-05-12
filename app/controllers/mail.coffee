@@ -1,7 +1,7 @@
 request = require("superagent")
 mail_helpers = require("../helpers/mail")
 
-module.exports = (app, redis) ->
+module.exports = (app, config, redis) ->
     app.post "/incoming", mail_helpers.mailgunAction, (req, res) ->
         if req.body.sender == process.env.ABBOTT_EMAIL
             message = req.body["stripped-text"]

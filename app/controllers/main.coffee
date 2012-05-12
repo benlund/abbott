@@ -9,7 +9,7 @@ application_helpers = require("../helpers/application")
 tropoAction = main_helpers.tropoAction
 secretAction = application_helpers.secretAction
 
-module.exports = (app, redis) ->
+module.exports = (app, config, redis) ->
     contacts = require("../../lib/contacts")(redis)
     
     app.post "/text", secretAction, tropoAction, (req, res) ->

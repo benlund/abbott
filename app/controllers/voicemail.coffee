@@ -7,7 +7,7 @@ application_helpers = require("../helpers/application")
 
 secretAction = application_helpers.secretAction
 
-module.exports = (app, redis) ->
+module.exports = (app, config, redis) ->
     contacts = require("../../lib/contacts")(redis)
     
     app.post "/transcription", secretAction, (req, res) ->
