@@ -1,6 +1,6 @@
 Tropo = require("../../lib/tropo")
 
-module.exports = 
+module.exports = (config) ->
     tropoAction: (req, res, next) ->
         req.t = new Tropo
         req.result = req.body.result

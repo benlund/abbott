@@ -2,7 +2,7 @@ url = require("url")
 xml2js = require("xml2js")
 request = require("superagent")
 
-module.exports = (redis) ->
+module.exports = (config, redis) ->
     get_contacts = (access_token, callback) ->
         redis.get "contacts:etag", (err, value) ->
             req = request
@@ -27,10 +27,10 @@ module.exports = (redis) ->
                 callback(value)
             else
                 data = 
-                    client_id: process.env.ABBOTT_GOOGLE_CLIENT_ID
-                    client_secret: process.env.ABBOTT_GOOGLE_CLIENT_SECRET
+                    client_id: config.google.client_id()
+                    client_secret: config.google.client_secret()
                     grant_type: "refresh_token"
-                    refresh_token: process.env.ABBOTT_GOOGLE_REFRESH_TOKEN
+                    refresh_token: config.google.refresh_token()
                 
                 request
                     .post("https://accounts.google.com/o/oauth2/token")

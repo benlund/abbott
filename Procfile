@@ -1,1 +1,1 @@
-web: coffee server.coffee
+web: coffee bin/cli.coffee --platform heroku

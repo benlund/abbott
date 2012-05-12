@@ -3,12 +3,11 @@ request = require("superagent")
 
 Call = require("../models/call")
 
-application_helpers = require("../helpers/application")
-
-secretAction = application_helpers.secretAction
-
 module.exports = (app, config, redis) ->
-    contacts = require("../../lib/contacts")(redis)
+    contacts = require("../../lib/contacts")(config, redis)
+    application_helpers = require("../helpers/application")(config)
+
+    secretAction = application_helpers.secretAction
     
     app.post "/transcription", secretAction, (req, res) ->
         result = req.body.result
@@ -22,7 +21,7 @@ module.exports = (app, config, redis) ->
                 call.save()
 
                 contacts.get_info call.contact, (name, type) ->
-                    url = "#{process.env.ABBOTT_CLOUDFILES_URL}/#{call.voicemail}"
+                    url = "#{config.rackspace.voicemail_url()}/#{call.voicemail}"
 
                     footer = if call.contact != name
                         """
@@ -41,14 +40,14 @@ module.exports = (app, config, redis) ->
                         """
 
                     mail_headers = 
-                        from:    "#{name} <#{call.contact}@#{process.env.ABBOTT_MAILGUN_DOMAIN}>"
-                        to:      "#{process.env.ABBOTT_NAME} <#{process.env.ABBOTT_EMAIL}>"
+                        from:    "#{name} <#{call.contact}@#{config.mailgun.domain()}>"
+                        to:      config.full_email()
                         subject: "Voicemail from #{name}"
                         text:    text
 
                     request
-                        .post("https://api.mailgun.net/v2/#{process.env.ABBOTT_MAILGUN_DOMAIN}/messages")
-                        .auth("api", process.env.ABBOTT_MAILGUN_API_KEY)
+                        .post("https://api.mailgun.net/v2/#{config.mailgun.domain()}/messages")
+                        .auth("api", config.mailgun.api_key())
                         .type("form")
                         .send(mail_headers)
                         .end()
@@ -63,8 +62,8 @@ module.exports = (app, config, redis) ->
 
             request
                 .get("https://auth.api.rackspacecloud.com/v1.0")
-                .set("X-Auth-User", process.env.ABBOTT_RACKSPACE_USER)
-                .set("X-Auth-Key", process.env.ABBOTT_RACKSPACE_KEY)
+                .set("X-Auth-User", config.rackspace.user())
+                .set("X-Auth-Key", config.rackspace.key())
                 .end (res) ->
                     stream = fs.createReadStream(file.path)
                     req = request
