@@ -1,3 +1,4 @@
+qs = require("querystring")
 request = require("superagent")
 
 Call = require("../models/call")
@@ -137,21 +138,31 @@ module.exports = (app, config, redis) ->
                     say:
                         value: "http://hosting.tropo.com/#{config.tropo.id()}/www/audio/#{config.ringback_tone()}"
 
+            q = qs.stringify
+                secret: config.secret()
+
             req.t.add "on"
                 event: "incomplete"
-                next: "/voicemail?secret=#{config.secret()}"
+                next: "/voicemail?#{q}"
     
     app.post "/voicemail", secretAction, tropoAction, (req, res) ->
         session = req.result.sessionId
 
+        q1 = qs.stringify
+            secret: config.secret()
+            session: session
+            
+        q2 = qs.stringify
+            secret: config.secret()
+
         req.t.add "record"
             beep:  true
-            url:   "https://#{req.header("Host")}/recording?session=#{session}&secret=#{config.secret()}"
+            url:   "https://#{req.header("Host")}/recording?#{q1}"
             voice: "kate"
             say:
                 value: "Please leave a message after the tone"
             transcription:
                 id:  session
-                url: "https://#{req.header("Host")}/transcription?secret=#{config.secret()}"
+                url: "https://#{req.header("Host")}/transcription?#{q2}"
 
         req.t.add "hangup"
