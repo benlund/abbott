@@ -2,7 +2,7 @@ Base = require("./base")
 
 class DotCloud extends Base
     redis_url: ->
-        process.env.DOTCLOUD_DATA_REDIS_URL
+        process.env.DOTCLOUD_CACHE_REDIS_URL
     
     mongo_url: ->
         process.env.DOTCLOUD_DATA_MONGODB_URL
