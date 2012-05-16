@@ -1,11 +1,16 @@
+fs = require("fs")
 Base = require("./base")
 
 class DotCloud extends Base
+    constructor: (argv) ->
+        @env = JSON.parse(fs.readFileSync("/home/dotcloud/environment.json", "utf-8"))
+        super(argv)
+    
     redis_url: ->
-        process.env.DOTCLOUD_CACHE_REDIS_URL
+        @env.DOTCLOUD_CACHE_REDIS_URL
     
     mongo_url: ->
-        process.env.DOTCLOUD_DATA_MONGODB_URL
+        @env.DOTCLOUD_DATA_MONGODB_URL
     
     port: ->
         8080
