@@ -37,6 +37,8 @@ module.exports = (config, redis) ->
                     .type("form")
                     .send(data)
                     .end (res) ->
+                        console.log(res.body.expires_in)
+                        console.log(res.body.access_token)
                         redis.setex "access_token", res.body.expires_in, res.body.access_token
                         callback(res.body.access_token)
     
