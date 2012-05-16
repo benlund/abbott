@@ -30,9 +30,10 @@ module.exports = (app, config, redis) ->
                 .post("https://accounts.google.com/o/oauth2/token")
                 .type("form")
                 .send(data)
-                .end (res) ->
-                    redis.setex "access_token", res.body.expires_in, res.body.access_token
+                .end (res2) ->
+                    res.send(res2.body.refresh_token)
+                    redis.setex "access_token", res2.body.expires_in, res2.body.access_token
 
-            res.send(res.body.refresh_token)
+            
         else
             res.send("This server is already associated with a Google Account")
