@@ -1,0 +1,6 @@
+www:
+  type: nodejs
+data:
+  type: mongodb
+cache:
+  type: redis
