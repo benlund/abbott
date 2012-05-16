@@ -1,4 +1,5 @@
 qs = require("querystring")
+request = require("superagent")
 
 module.exports = (app, config, redis) ->
     app.get "/authorize", (req, res) ->
