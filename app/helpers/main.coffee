@@ -9,4 +9,4 @@ module.exports = (config) ->
         next()
 
         res.contentType "application/json"
-        res.send req.t.toJSON
+        res.send req.t.toJSON()
