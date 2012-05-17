@@ -2,7 +2,7 @@ www:
   type: custom
   node_version: v0.6.18
   buildscript: vendor/node
-  process: "PLATFORM=dotcloud npm start"
+  process: "npm start"
   ports:
      www: http
   
