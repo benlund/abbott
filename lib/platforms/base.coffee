@@ -1,7 +1,7 @@
 class Base
-    constructor: (argv, env) ->
+    constructor: (argv, env = process.env) ->
         @argv = argv
-        @env = env || process.env
+        @env = env
     
     redis_url: ->
         @argv["redis-url"]
