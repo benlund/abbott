@@ -2,12 +2,12 @@ Base = require("./base")
 
 class Heroku extends Base
     redis_url: ->
-        process.env.REDISTOGO_URL
+        @env.REDISTOGO_URL
 
     mongo_url: ->
-        process.env.MONGOLAB_URI
+        @env.MONGOLAB_URI
 
     port: ->
-        process.env.PORT
+        @env.PORT
 
 module.exports = Heroku
