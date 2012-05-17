@@ -2,7 +2,6 @@ Base = require("./base")
 
 class Heroku extends Base
     redis_url: ->
-        console.log(@env)
         @env.REDISTOGO_URL
 
     mongo_url: ->

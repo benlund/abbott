@@ -48,6 +48,8 @@ class Base
             
     google:
         refresh_token: ->
+            console.log(this)
+            console.dir(this)
             @env.ABBOTT_GOOGLE_REFRESH_TOKEN
             
         client_id: ->
