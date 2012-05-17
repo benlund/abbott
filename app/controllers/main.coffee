@@ -29,7 +29,7 @@ module.exports = (app, config, redis) ->
             redis.get message.contact, (err, value) ->
                 contacts.get_info message.contact, (name, type) ->
                     mail_headers =
-                        from:    "#{name} <#{message.contact}@#{config.mailgun.domain()}>"
+                        from:    "#{name} <#{message.contact}@#{config.mailgun_domain()}>"
                         to:      config.full_email()
                         subject: "SMS from #{name}"
                         text:    message.text
@@ -38,8 +38,8 @@ module.exports = (app, config, redis) ->
                         mail_headers["h:In-Reply-To"] = value
     
                     request
-                        .post("https://api.mailgun.net/v2/#{config.mailgun.domain()}/messages")
-                        .auth("api", config.mailgun.api_key())
+                        .post("https://api.mailgun.net/v2/#{config.mailgun_domain()}/messages")
+                        .auth("api", config.mailgun_api_key())
                         .type("form")
                         .send(mail_headers)
                         .end()
@@ -92,7 +92,7 @@ module.exports = (app, config, redis) ->
                 on:
                     event: "ring"
                     say:
-                        value: "http://hosting.tropo.com/#{config.tropo.id()}/www/audio/#{config.ringback_tone()}"
+                        value: "http://hosting.tropo.com/#{config.tropo_id()}/www/audio/#{config.ringback_tone()}"
 
         else if req.session.headers["x-voxeo-to"].match(/<sip:999/)
             contact = req.session.headers["x-sbc-request-uri"].split(";")[1]
@@ -116,7 +116,7 @@ module.exports = (app, config, redis) ->
                 on:
                     event: "ring"
                     say:
-                        value: "http://hosting.tropo.com/#{config.tropo.id()}/www/audio/#{config.ringback_tone()}"
+                        value: "http://hosting.tropo.com/#{config.tropo_id()}/www/audio/#{config.ringback_tone()}"
 
         else
             contact = req.session.from.name
@@ -136,7 +136,7 @@ module.exports = (app, config, redis) ->
                 on:
                     event: "ring"
                     say:
-                        value: "http://hosting.tropo.com/#{config.tropo.id()}/www/audio/#{config.ringback_tone()}"
+                        value: "http://hosting.tropo.com/#{config.tropo_id()}/www/audio/#{config.ringback_tone()}"
 
             q = qs.stringify
                 secret: config.secret()

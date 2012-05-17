@@ -27,10 +27,10 @@ module.exports = (config, redis) ->
                 callback(value)
             else
                 data = 
-                    client_id: config.google.client_id()
-                    client_secret: config.google.client_secret()
+                    client_id: config.google_client_id()
+                    client_secret: config.google_client_secret()
                     grant_type: "refresh_token"
-                    refresh_token: config.google.refresh_token()
+                    refresh_token: config.google_refresh_token()
                 
                 request
                     .post("https://accounts.google.com/o/oauth2/token")

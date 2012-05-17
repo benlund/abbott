@@ -14,7 +14,7 @@ module.exports = (app, config, redis) ->
             body =
                 to:     contact
                 msg:    message
-                token:  config.tropo.messaging_token()
+                token:  config.tropo_messaging_token()
                 source: "email"
 
             request

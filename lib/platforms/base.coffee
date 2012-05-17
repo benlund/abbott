@@ -33,39 +33,28 @@ class Base
     secret: ->
         @env.ABBOTT_SECRET
         
-    mailgun:
-        api_key: ->
-            @env.ABBOTT_MAILGUN_API_KEY
-        domain: ->
-            @env.ABBOTT_MAILGUN_DOMAIN
-            
-    tropo:
-        id: ->
-            @env.ABBOTT_TROPO_ID
+    mailgun_api_key: ->
+        @env.ABBOTT_MAILGUN_API_KEY
+    mailgun_domain: ->
+        @env.ABBOTT_MAILGUN_DOMAIN
         
-        messaging_token: ->
-            @env.ABBOTT_TROPO_MESSAGING_TOKEN
+    tropo_id: ->
+        @env.ABBOTT_TROPO_ID
+    tropo_messaging_token: ->
+        @env.ABBOTT_TROPO_MESSAGING_TOKEN
             
-    google:
-        refresh_token: ->
-            console.log(this)
-            console.dir(this)
-            @env.ABBOTT_GOOGLE_REFRESH_TOKEN
+    google_refresh_token: ->
+        @env.ABBOTT_GOOGLE_REFRESH_TOKEN
+    google_client_id: ->
+        @env.ABBOTT_GOOGLE_CLIENT_ID
+    google_client_secret: ->
+        @env.ABBOTT_GOOGLE_CLIENT_SECRET
             
-        client_id: ->
-            @env.ABBOTT_GOOGLE_CLIENT_ID
-            
-        client_secret: ->
-            @env.ABBOTT_GOOGLE_CLIENT_SECRET
-            
-    rackspace:
-        voicemail_url: ->
-            @env.ABBOTT_CLOUDFILES_URL
-            
-        user: ->
-            @env.ABBOTT_RACKSPACE_USER
-            
-        key: ->
-            @env.ABBOTT_RACKSPACE_KEY
+    rackspace_voicemail_url: ->
+        @env.ABBOTT_CLOUDFILES_URL
+    rackspace_user: ->
+        @env.ABBOTT_RACKSPACE_USER
+    rackspace_key: ->
+        @env.ABBOTT_RACKSPACE_KEY
 
 module.exports = Base

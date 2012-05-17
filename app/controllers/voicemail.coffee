@@ -21,7 +21,7 @@ module.exports = (app, config, redis) ->
                 call.save()
 
                 contacts.get_info call.contact, (name, type) ->
-                    url = "#{config.rackspace.voicemail_url()}/#{call.voicemail}"
+                    url = "#{config.rackspace_voicemail_url()}/#{call.voicemail}"
 
                     footer = if call.contact != name
                         """
@@ -40,14 +40,14 @@ module.exports = (app, config, redis) ->
                         """
 
                     mail_headers = 
-                        from:    "#{name} <#{call.contact}@#{config.mailgun.domain()}>"
+                        from:    "#{name} <#{call.contact}@#{config.mailgun_domain()}>"
                         to:      config.full_email()
                         subject: "Voicemail from #{name}"
                         text:    text
 
                     request
-                        .post("https://api.mailgun.net/v2/#{config.mailgun.domain()}/messages")
-                        .auth("api", config.mailgun.api_key())
+                        .post("https://api.mailgun.net/v2/#{config.mailgun_domain()}/messages")
+                        .auth("api", config.mailgun_api_key())
                         .type("form")
                         .send(mail_headers)
                         .end()
@@ -62,8 +62,8 @@ module.exports = (app, config, redis) ->
 
             request
                 .get("https://auth.api.rackspacecloud.com/v1.0")
-                .set("X-Auth-User", config.rackspace.user())
-                .set("X-Auth-Key", config.rackspace.key())
+                .set("X-Auth-User", config.rackspace_user())
+                .set("X-Auth-Key", config.rackspace_key())
                 .end (res) ->
                     stream = fs.createReadStream(file.path)
                     req = request
