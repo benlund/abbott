@@ -13,6 +13,6 @@ class DotCloud extends Base
         @env.DOTCLOUD_DATA_MONGODB_URL
     
     port: ->
-        8080
+        @env.PORT_WWW || 8080
 
 module.exports = DotCloud
