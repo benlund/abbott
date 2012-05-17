@@ -31,6 +31,7 @@ class Base
         @env.ABBOTT_RINGBACK_TONE
         
     secret: ->
+        console.log(@env.ABBOTT_SECRET)
         @env.ABBOTT_SECRET
         
     mailgun:
