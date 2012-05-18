@@ -13,6 +13,7 @@ module.exports = (environment) ->
     mongoose.connect(config.mongo_url())
     
     airbrake = require("airbrake").createClient(config.airbrake_api_key())
+    airbrake.handleExceptions()
     app.error (err, req, res, next) ->
         err.params = Object.merge(Object.merge(req.params, req.query), req.body)
         airbrake.notify(err)
