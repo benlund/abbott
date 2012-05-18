@@ -5,6 +5,7 @@ module.exports = (environment) ->
 
     express = require("express")
     app = express.createServer()
+    app.use express.logger("dev")
     app.use express.bodyParser()
 
     redis = require("redis-url").connect(config.redis_url())
