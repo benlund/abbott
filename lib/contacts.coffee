@@ -56,7 +56,7 @@ module.exports = (config, redis) ->
                         phone = entry["gd:phoneNumber"].find (value) ->
                             "+#{value["#"].replace(/\D/g, "")}" == contact
     
-                        type = phone["@"]["label"] || url.parse(phone["@"]["rel"]).fragment.titleize()
+                        type = phone["@"]["label"] || url.parse(phone["@"]["rel"]).hash.from(1).titleize()
                         callback(name, type)
                     else
                         callback(contact)
