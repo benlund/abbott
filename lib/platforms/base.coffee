@@ -56,5 +56,8 @@ class Base
         @env.ABBOTT_RACKSPACE_USER
     rackspace_key: ->
         @env.ABBOTT_RACKSPACE_KEY
+        
+    airbrake_api_key: ->
+        @env.ABBOTT_AIRBRAKE_API_KEY
 
 module.exports = Base
