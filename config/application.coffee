@@ -1,5 +1,7 @@
 require("sugar")
 
+url = require("url")
+
 module.exports = (environment) ->
     config = require("../lib/config")(environment)
 
@@ -16,8 +18,15 @@ module.exports = (environment) ->
             36
         else
             32
+            
+        parts = url.parse(req.originalUrl, true)
+        delete parts.query.secret
+        path = url.format
+            query: parts.query
+            pathname: parts.pathname
+        
 
-        """\033[#{color}m#{(new Date).toUTCString()}:\033[m #{req.method} #{req.originalUrl} service=#{new Date - req._startTime}ms status=#{status} bytes=#{res._headers["content-length"]}"""
+        """\033[#{color}m#{(new Date).toUTCString()}:\033[m #{req.method} #{path} service=#{new Date - req._startTime}ms status=#{status} bytes=#{res._headers["content-length"] || 0}"""
 
     app.use express.bodyParser()
 
