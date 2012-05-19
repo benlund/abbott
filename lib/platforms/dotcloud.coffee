@@ -12,7 +12,7 @@ class DotCloud extends Base
 
     mongo_url: ->
         mongo = url.parse(@env.DOTCLOUD_DATA_MONGODB_URL)
-        mongo.pathname = "/abbott"
+        mongo.pathname = "/admin"
         url.format(mongo)
 
     port: ->
