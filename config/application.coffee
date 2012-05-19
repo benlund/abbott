@@ -5,7 +5,20 @@ module.exports = (environment) ->
 
     express = require("express")
     app = express.createServer()
-    app.use express.logger("dev")
+    app.use express.logger (req, res) ->
+        status = res.statusCode
+        
+        color = if status >= 500
+            31
+        else if status >= 400
+            33
+        else if status >= 300
+            36
+        else
+            32
+
+        """\033[#{color}m#{new Date().toUTCString()}:\033[90m #{req.method} #{req.originalUrl} service=#{new Date - req._startTime}ms status=#{status}"""
+
     app.use express.bodyParser()
 
     redis = require("redis-url").connect(config.redis_url())
