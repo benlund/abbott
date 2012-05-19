@@ -6,7 +6,7 @@ module.exports = (environment) ->
     express = require("express")
     app = express.createServer()
     app.use express.logger (req, res) ->
-        status = res.status()
+        status = res.status
         
         color = if status >= 500
             31
