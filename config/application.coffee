@@ -17,7 +17,7 @@ module.exports = (environment) ->
         else
             32
 
-        """\033[#{color}m#{(new Date).toUTCString()}:\033[m #{req.method} #{req.originalUrl} service=#{new Date - req._startTime}ms status=#{status} bytes=#{res.headers["content-length"]}"""
+        """\033[#{color}m#{(new Date).toUTCString()}:\033[m #{req.method} #{req.originalUrl} service=#{new Date - req._startTime}ms status=#{status} bytes=#{res._headers["content-length"]}"""
 
     app.use express.bodyParser()
 
