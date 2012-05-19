@@ -10,7 +10,8 @@ class DotCloud extends Base
         @env.DOTCLOUD_CACHE_REDIS_URL
     
     mongo_url: ->
-        @env.DOTCLOUD_DATA_MONGODB_URL
+        if @env.DOTCLOUD_DATA_MONGODB_URL
+             @env.DOTCLOUD_DATA_MONGODB_URL + "/abbott"
     
     port: ->
         @env.PORT_WWW || 8080
