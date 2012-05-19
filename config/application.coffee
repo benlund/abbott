@@ -17,7 +17,7 @@ module.exports = (environment) ->
         else
             32
 
-        """\033[#{color}m:date:\033[90m :method :url service=:response-timems status=:status"""
+        """\033[#{color}m#{new Date}:\033[m #{req.method} #{req.url} service=#{new Date - req._startTime}ms status=#{status}"""
 
     app.use express.bodyParser()
 
