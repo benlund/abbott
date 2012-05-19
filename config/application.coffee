@@ -6,7 +6,7 @@ module.exports = (environment) ->
     express = require("express")
     app = express.createServer()
     app.use express.logger (req, res) ->
-        status = res.statusCode
+        status = res.status()
         
         color = if status >= 500
             31
@@ -17,7 +17,7 @@ module.exports = (environment) ->
         else
             32
 
-        """\033[#{color}m#{new Date}:\033[m #{req.method} #{req.url} service=#{new Date - req._startTime}ms status=#{status}"""
+        """\033[#{color}m#{new Date}:\033[m #{req.method()} #{req.url()} service=#{new Date - req._startTime}ms status=#{status}"""
 
     app.use express.bodyParser()
 
