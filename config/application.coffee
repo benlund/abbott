@@ -24,9 +24,12 @@ module.exports = (environment) ->
         path = url.format
             query: parts.query
             pathname: parts.pathname
-        
+            
+        now = (new Date).toUTCString()
+        response_time = new Date - req._startTime
+        bytes = res._headers["content-length"] || 0
 
-        """\033[#{color}m#{(new Date).toUTCString()}:\033[m #{req.method} #{path} service=#{new Date - req._startTime}ms status=#{status} bytes=#{res._headers["content-length"] || 0}"""
+        """\033[#{color}m#{now}:\033[m #{req.method} #{path} service=#{response_time}ms status=#{status} bytes=#{bytes}"""
 
     app.use express.bodyParser()
 
@@ -35,12 +38,13 @@ module.exports = (environment) ->
     mongoose = require("mongoose")
     mongoose.connect(config.mongo_url())
     
-    airbrake = require("airbrake").createClient(config.airbrake_api_key())
-    airbrake.handleExceptions()
-    app.error (err, req, res, next) ->
-        err.params = Object.merge(Object.merge(req.params, req.query), req.body)
-        airbrake.notify(err)
-        res.send(500)
+    if airbrake_api_key = config.airbrake_api_key()
+        airbrake = require("airbrake").createClient(airbrake_api_key)
+        airbrake.handleExceptions()
+        app.error (err, req, res, next) ->
+            err.params = Object.merge(Object.merge(req.params, req.query), req.body)
+            airbrake.notify(err)
+            res.send(500)
 
     require("../app/controllers/main")(app, config, redis)
     require("../app/controllers/mail")(app, config, redis)
