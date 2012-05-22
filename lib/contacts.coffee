@@ -10,7 +10,7 @@ module.exports = (config, redis) ->
                 .set("GData-Version", "3.0")
                 .set("Authorization", "Bearer #{access_token}")
     
-            if value
+            if value && !err
                 req.set("If-None-Match", value)
     
             req.end (res) ->
@@ -23,7 +23,7 @@ module.exports = (config, redis) ->
     
     get_access_token = (callback) ->
         redis.get "access_token", (err, value) ->
-            if value
+            if value && !err
                 callback(value)
             else
                 data = 

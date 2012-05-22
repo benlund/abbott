@@ -34,7 +34,7 @@ module.exports = (app, config, redis) ->
                         subject: "SMS from #{name}"
                         text:    message.text
     
-                    if value
+                    if value && !err
                         mail_headers["h:In-Reply-To"] = value
     
                     request
