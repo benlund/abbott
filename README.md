@@ -5,7 +5,7 @@ Abbott is a "phone-system-in-a-box" that routes your calls and text messages how
 ![Ward Abbott](http://f.cl.ly/items/3b3z2N3b0T233w0I402g/bourne-1.jpg) 
 
 ## Getting Started
-Abbott is meant to deployed on any environment capable of running MongoDB, Redis, and NodeJS.  Currently the only supported environment is Heroku but work is being made towards a more multi-platform approach.  A shell script is forthcoming to automate a large majority of the process.
+Abbott is meant to deployed on any environment capable of running MongoDB, Redis, and NodeJS.  Currently the only supported environments are Heroku and DotCloud, but work is being made towards a more multi-platform approach.  A shell script is forthcoming to automate a large majority of the process.
 
 ## License
 Abbott is licensed under the MIT license.
